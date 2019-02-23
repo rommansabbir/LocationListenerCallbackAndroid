@@ -1,4 +1,4 @@
-package com.rommansabbir.locationcallback.callbacks.LocationListener;
+package com.rommansabbir.locationlistener;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,20 +10,19 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class LocationListenerCallback extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class LocationListener extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final int PERMISSION_REQUEST_LOCATION = 0;
     private Context context;
-    private static final String TAG = "LocationListenerCallbac";
+    private static final String TAG = "LocationListener";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static String ERROR_MESSAGE = "LOCATION NULL";
     private LocationListenerCallbackInterface locationListenerCallbackInterface;
 
-    public LocationListenerCallback(Context context) {
+    public LocationListener(Context context) {
         this.context = context;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient((Activity) context);
         locationListenerCallbackInterface = (LocationListenerCallbackInterface) context;
@@ -44,29 +43,31 @@ public class LocationListenerCallback extends AppCompatActivity implements Activ
         }
     }
 
-    public void requestLocationPermission(){
+    public void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
             ActivityCompat.requestPermissions((Activity) context,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_REQUEST_LOCATION);
+            getLocation();
 
         } else {
             ActivityCompat.requestPermissions((Activity) context,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION);
+            getLocation();
+
         }
     }
 
-    public void getLocation(){
+    public void getLocation() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener((Activity) context, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    if (location != null){
+                    if (location != null) {
                         locationListenerCallbackInterface.onLocationSuccess(location);
-                    }
-                    else {
+                    } else {
                         locationListenerCallbackInterface.onLocationFailure(ERROR_MESSAGE);
                     }
                 }
@@ -78,6 +79,7 @@ public class LocationListenerCallback extends AppCompatActivity implements Activ
 
     public interface LocationListenerCallbackInterface {
         void onLocationSuccess(Location location);
+
         void onLocationFailure(String ERROR_MESSAGE);
     }
 }
