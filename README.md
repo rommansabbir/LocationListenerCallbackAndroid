@@ -30,4 +30,8 @@ locationListenerCallback = new LocationListener(this);
 
 locationListenerCallback.getLocation();
 
+6. Request for permission if nedded: 
+
+locationListenerCallback.requestLocationPermission();
+
 # Now, you are ready to go!
