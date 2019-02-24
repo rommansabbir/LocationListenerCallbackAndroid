@@ -1,1 +1,1 @@
-include ':app', ':locationlistener'
+include ':app'

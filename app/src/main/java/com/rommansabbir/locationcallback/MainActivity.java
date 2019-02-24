@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.rommansabbir.locationlistener.LocationListener;
+import com.rommansabbir.locationlistenerandroid.LocationListener;
 
 
 public class MainActivity extends AppCompatActivity implements LocationListener.LocationListenerCallbackInterface  {
